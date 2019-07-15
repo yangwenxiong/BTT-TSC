@@ -1,0 +1,14 @@
+V1.2.10  初始版本
+
+V1.2.11  
+  1. 修复 printer not attached bug
+  2. fix reminder status abnormal
+  3. fix bugs about print again after stop printing
+  4. fix bugs about print after power failed
+  5. fix bugs about function "my_sprintf ", float num
+  
+V1.2.12
+  1. echo、error弹窗界面显示最新的消息
+  1. popup menu display the newest echo/error information
+  2. 新增多喷头(最多可达6个，默认一个)，多挤出机（最大可达6个，默认一个），多风扇(最多可达6个，默认一个)
+  2. add multi-nozzle(max up to 6, default 1)、multi-extruder(max up to 6, default 1)、multi-fan(max up to 6, default 1)
