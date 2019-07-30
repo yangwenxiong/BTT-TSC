@@ -28,7 +28,8 @@
 #include "usbh_usr.h"
 #include "usbh_msc_core.h"
 
-#include "sd.h"
+//#include "sd.h"
+#include "sdio_sdcard.h"
 #include "w25qxx.h"
 #include "xpt2046.h"
 
