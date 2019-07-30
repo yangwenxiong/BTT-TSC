@@ -13,10 +13,10 @@ enum
   KNOB_DEC,
 };
 
-#define KEY_CLICK          0x0000  // key定义为 u16, 16(u16 16bit) - 3(3 bits flag ) = 13 bit 所以 u16 最大支持 2^13 = 8192 个键值
-#define KEY_DOUBLE_CLICK   0x2000  //第三位用来标识双击动作
-#define KEY_LONG_RELEASE   0x4000  //第二位用来标识长按后释放动作
-#define KEY_LONG_CLICK     0x8000  //第一位用来标识长按动作
+#define KEY_CLICK          0x0000  // key露篓脪氓脦陋 u16, 16(u16 16bit) - 3(3 bits flag ) = 13 bit 脣霉脪脭 u16 脳卯麓贸脰搂鲁脰 2^13 = 8192 赂枚录眉脰碌
+#define KEY_DOUBLE_CLICK   0x2000  //碌脷脠媒脦禄脫脙脌麓卤锚脢露脣芦禄梅露炉脳梅
+#define KEY_LONG_RELEASE   0x4000  //碌脷露镁脦禄脫脙脌麓卤锚脢露鲁陇掳麓潞贸脢脥路脜露炉脳梅
+#define KEY_LONG_CLICK     0x8000  //碌脷脪禄脦禄脫脙脌麓卤锚脢露鲁陇掳麓露炉脳梅
 
 
 void TSC_Calibration(void);
@@ -30,6 +30,10 @@ extern void (*TSC_ReDrawIcon)(u8 positon, u8 is_press);
 
 void Buzzer_Config(void);
 void Buzzer_DeConfig(void);
+void PS_ON_Config(void);                        //麓貌脥锚鹿脴禄煤鲁玫脢录禄炉脜盲脰脙
+void PS_ON_DeConfig(void);                      //麓貌脥锚鹿脴禄煤脜盲脰脙赂麓脦禄
+void Material_Check_DeConfig(void);             //露脧脕脧录矛虏芒赂麓脦禄脜盲脰脙
+void Material_Check_Config(void);               //露脧脕脧录矛虏芒鲁玫脢录禄炉脜盲脰脙
 void openBuzzer(u16 h_us, u16 l_us);
 
 #endif
