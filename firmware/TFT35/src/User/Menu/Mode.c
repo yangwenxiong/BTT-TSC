@@ -6,18 +6,38 @@ void Serial_ReSourceDeInit(void)
 {
   memset(&infoHost, 0, sizeof(infoHost));
   resetInfoFile();
-  SD_DeInit();
+//  SD_DeInit();
+  SD_Init();
 #ifdef BUZZER_SUPPORT
   Buzzer_DeConfig();
 #endif
+//
+#ifdef PS_ON_SUPPORT     //´òÍê¹Ø»ú
+  PS_ON_DeConfig();
+#endif 
+//  
+#ifdef Material_Check_SUPPORT //¶ÏÁÏ¼ì²â 
+  Material_Check_DeConfig();
+#endif  
+    
   Serial_DeConfig();
 }
 
 void Serial_ReSourceInit(void)
 {
+//·äÃùÆ÷
 #ifdef BUZZER_SUPPORT
   Buzzer_Config();
 #endif
+//´òÍê¹Ø»ú
+#ifdef PS_ON_SUPPORT
+  PS_ON_Config();
+#endif 
+//¶ÏÁÏ¼ì²â    
+#ifdef Material_Check_SUPPORT
+  Material_Check_Config();
+#endif 
+    
   Serial_Config(infoSettings.baudrate);
   
 #ifdef U_DISK_SUPPROT
@@ -37,7 +57,7 @@ void infoMenuSelect(void)
       u32 startUpTime = OS_GetTime();
       heatSetUpdateTime(100);
       infoMenu.menu[infoMenu.cur] = menuMain;
-      LOGO_ReadDisplay();
+      LOGO_ReadDisplay();                       //ÏÔÊ¾¿ª»úlogo
       while(OS_GetTime() - startUpTime < 300)  //Display 3s logo
       {                                                                                                                     
         loopProcess();	
