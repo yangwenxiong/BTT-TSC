@@ -1,5 +1,6 @@
 #include "diskio.h"	
-#include "sd.h"	
+//#include "sd.h"	
+#include "sdio_sdcard.h"
 #include "usb_conf.h"
 #include "usbh_msc_core.h"
 #include "usbh_usr.h"
@@ -28,7 +29,7 @@ DSTATUS disk_initialize (
   
 	switch(pdrv)
 	{
-    case VOLUMES_SD_CARD://SD¿¨
+    case VOLUMES_SD_CARD://SDÂ¿Â¨
       if (SD_Init() == 0)
       {  
         diskStatus[pdrv] &= ~STA_NOINIT;
@@ -60,10 +61,10 @@ DRESULT disk_read (
   
 	switch (pdrv)
 	{
-		case VOLUMES_SD_CARD://SD¿¨
-			while (SD_Read_Data(buff,sector,count))//¶Á³ö´í
+		case VOLUMES_SD_CARD://SDÂ¿Â¨
+			while (SD_ReadDisk(buff,sector,count))//(SD_Read_Data(buff,sector,count))//Â¶ÃÂ³Ã¶Â´Ã­  SD_ReadBlock(u8 *buf,long long addr,u16 blksize)
 			{
-				SD_Init();	//ÖØĞÂ³õÊ¼»¯SD¿¨
+				SD_Init();	//Ã–Ã˜ÃÃ‚Â³ÃµÃŠÂ¼Â»Â¯SDÂ¿Â¨
 			}
       return RES_OK;
       
@@ -92,10 +93,10 @@ DRESULT disk_write (
   
   switch (pdrv)
   {
-    case VOLUMES_SD_CARD://SD¿¨
-      while (SD_Write_Data((u8*)buff,sector,count))//Ğ´³ö´í
+    case VOLUMES_SD_CARD://SDÂ¿Â¨
+      while (SD_WriteDisk((u8*)buff,sector,count))//(SD_Write_Data((u8*)buff,sector,count))//ÃÂ´Â³Ã¶Â´Ã­   ;
       {
-        SD_Init();	//ÖØĞÂ³õÊ¼»¯SD¿¨
+        SD_Init();	//Ã–Ã˜ÃÃ‚Â³ÃµÃŠÂ¼Â»Â¯SDÂ¿Â¨
       }
       return RES_OK;
     
