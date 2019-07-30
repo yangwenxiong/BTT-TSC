@@ -217,6 +217,27 @@ KEY_VALUES menuKeyGetValue(void)
   return(KEY_VALUES)KEY_GetValue(sizeof(rect_of_key)/sizeof(rect_of_key[0]), rect_of_key);    
 }
 
+//断料检测
+void Material_Check(void)
+{
+    if((GPIO_ReadInputDataBit(GPIOE ,GPIO_Pin_6)==1) && T_count>10){
+        T_count-=3;
+        //提示断料
+        Material_Check_flag=1;
+        
+//        popupDrawPage(bottomDoubleBtn, textSelect(LABEL_PAUSE), (u8*)"Supplies are out of stock or broken,please stop printing", textSelect(LABEL_CONFIRM), textSelect(LABEL_CANNEL));
+    }
+    else if(GPIO_ReadInputDataBit(GPIOE ,GPIO_Pin_6)==0){
+        T_count++;
+        if(T_count>12){
+            T_count=0;
+            inCheck_flag=1;
+            
+            Material_Check_flag=0;
+        }
+
+    }
+}
 
 void loopProcess (void)
 {
@@ -249,4 +270,18 @@ void loopProcess (void)
   if(!isPrinting())
     loopCheckMode();
 #endif
+/*************断料检测************************************/
+  if(isPrinting()){
+     if(isPause()!=1)
+      Material_Check();
+  }
+  if(Material_Check_flag == 1 && inCheck_flag ==1){
+//    Material_Check_flag =0;
+    inCheck_flag = 0;
+      setPrintPause(1); 
+    popupDrawPage(&bottomSingleBtn, textSelect(LABEL_PAUSE), (u8*)"No Material!", textSelect(LABEL_CONFIRM), 0);
+    if(infoMenu.menu[infoMenu.cur] != menuPopup)
+    infoMenu.menu[++infoMenu.cur] = menuPopup;
+  }
+/****************************************************/
 }
