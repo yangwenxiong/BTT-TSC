@@ -26,7 +26,7 @@
 #define K TSC_Para[6]
 
 
-u32 TSC_Para[7];//У׼ϵ��
+u32 TSC_Para[7];//Ð£×¼Ïµï¿½ï¿½
 static volatile bool touchScreenIsPress=false;
 
 void TS_Get_Coordinates(u16 *x, u16 *y)
@@ -81,7 +81,7 @@ u8 calibrationEnsure(u16 x,u16 y)
   }
   return 1;
 }
-
+//´¥ÃþÐ£×¼
 void TSC_Calibration(void)
 {
   u16 x_offset;
@@ -216,11 +216,11 @@ typedef enum
   LONG_PRESS,
 }KEY_STATUS;
 
-#define KEY_DOUOBLE_SPACE        15     //�೤ʱ���ڵ�������ж�Ϊ˫��
-#define KEY_LONG_PRESS_START     200     //��������ÿ�ʼ�ж�Ϊ ���� ��ֵ
+#define KEY_DOUOBLE_SPACE        15     //ï¿½à³¤Ê±ï¿½ï¿½ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½ÎªË«ï¿½ï¿½
+#define KEY_LONG_PRESS_START     200     //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¿ï¿½Ê¼ï¿½Ð¶ï¿½Îª ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Öµ
 
-#define KEY_LONG_PRESS_SPACE_MAX 10     //����ʱ ���÷���һ�μ�ֵ
-#define KEY_LONG_PRESS_SPACE_MIN 2      //����ʱ ��̶�÷���һ�μ�ֵ
+#define KEY_LONG_PRESS_SPACE_MAX 10     //ï¿½ï¿½ï¿½ï¿½Ê± ï¿½î³¤ï¿½ï¿½Ã·ï¿½ï¿½ï¿½Ò»ï¿½Î¼ï¿½Öµ
+#define KEY_LONG_PRESS_SPACE_MIN 2      //ï¿½ï¿½ï¿½ï¿½Ê± ï¿½ï¿½Ì¶ï¿½Ã·ï¿½ï¿½ï¿½Ò»ï¿½Î¼ï¿½Öµ
 
 //u16 KEY_GetValue(u8 total_rect,const GUI_RECT* menuRect)
 //{
@@ -230,7 +230,7 @@ typedef enum
 //  static u32  first_time = 0;
 //  static u8   long_press_space = KEY_LONG_PRESS_SPACE_MAX;
 
-//  static KEY_STATUS nowStatus = NO_CLICK;    //������ǰ��״̬
+//  static KEY_STATUS nowStatus = NO_CLICK;    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½×´Ì¬
 
 //  if(touchScreenIsPress)        
 //  {
@@ -396,13 +396,13 @@ void TIM3_Config(u16 psc,u16 arr)
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE; 
 	NVIC_Init(&NVIC_InitStructure); 
 
-	RCC->APB1ENR|=1<<1;	           //TIM3ʱ��ʹ��    
- 	TIM3->ARR=arr;  	             //�趨�Զ���װֵ   
-	TIM3->PSC=psc;  	             //Ԥ��Ƶ��
-  TIM3->SR = (uint16_t)~(1<<0);  //��������ж�
-	TIM3->DIER|=1<<0;              //���������ж�	  
+	RCC->APB1ENR|=1<<1;	           //TIM3Ê±ÖÓÊ¹ÄÜ    
+ 	TIM3->ARR=arr;  	             //Éè¶¨×Ô¶¯ÖØ×°Öµ   
+	TIM3->PSC=psc;  	             //Ô¤·ÖÆµÆ÷
+  TIM3->SR = (uint16_t)~(1<<0);  //Çå³ý¸üÐÂÖÐ¶Ï
+	TIM3->DIER|=1<<0;              //ÔÊÐí¸üÐÂÖÐ¶Ï	  
 	TIM3->CNT =0;
-	TIM3->CR1 &= ~(0x01);          //ʧ�ܶ�ʱ��3	
+	TIM3->CR1 &= ~(0x01);          //Ê§ÄÜ¶¨Ê±Æ÷3	
 }
 
 void Buzzer_Config(void)
@@ -427,6 +427,48 @@ void Buzzer_DeConfig(void)
   GPIO_InitStructure.GPIO_Pin = BUZZER_PIN;
   GPIO_Init(BUZZER_PORT, &GPIO_InitStructure);
 }
+//´òÍê¹Ø»ú³õÊ¼»¯ÅäÖÃ
+void PS_ON_Config(void)
+{
+  GPIO_InitTypeDef GPIO_InitStructure;
+  
+  RCC_APB2PeriphClockCmd(PS_ON_RCC, ENABLE);
+
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+  GPIO_InitStructure.GPIO_Pin = PS_ON_PIN;
+  GPIO_InitStructure.GPIO_Speed =GPIO_Speed_50MHz;
+  GPIO_Init(PS_ON_PORT, &GPIO_InitStructure);
+    
+  GPIO_SetBits(GPIOE,  GPIO_Pin_5);  
+}
+void PS_ON_DeConfig(void)
+{
+  GPIO_InitTypeDef GPIO_InitStructure;  
+
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+  GPIO_InitStructure.GPIO_Pin = PS_ON_PIN;
+  GPIO_Init(PS_ON_PORT, &GPIO_InitStructure);
+}
+//¶ÏÁÏ¼ì²âÅäÖÃ
+void Material_Check_DeConfig(void)
+{
+  GPIO_InitTypeDef GPIO_InitStructure;  
+
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+  GPIO_InitStructure.GPIO_Pin = Material_Check_PIN;
+  GPIO_Init(Material_Check_PORT, &GPIO_InitStructure);
+}
+void Material_Check_Config(void)
+{
+  GPIO_InitTypeDef GPIO_InitStructure;
+  
+  RCC_APB2PeriphClockCmd(Material_Check_RCC, ENABLE);
+
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
+  GPIO_InitStructure.GPIO_Pin = Material_Check_PIN;
+  GPIO_InitStructure.GPIO_Speed =GPIO_Speed_50MHz;
+  GPIO_Init(Material_Check_PORT, &GPIO_InitStructure);
+}
 
 typedef struct{
 	u16 h_us,
@@ -446,7 +488,7 @@ void openBuzzer(u16 h_us, u16 l_us)
   else
     buzzer.num = 500;        
 
-  TIM3->CR1 |= 0x01;               //ʹ�ܶ�ʱ��3	
+  TIM3->CR1 |= 0x01;               //Ê¹ÄÜ¶¨Ê±Æ÷3	
 }
 void closeBuzzer(void)   
 {
@@ -454,10 +496,10 @@ void closeBuzzer(void)
 	TIM3->CR1 &= ~(0x01);
 }
 
-void TIM3_IRQHandler(void)   //TIM3�ж�
+void TIM3_IRQHandler(void)   //TIM3ÖÐ¶Ï
 {
   static bool flag = false;
-  if ((TIM3->SR&0x01) != 0 ) //���ָ����TIM�жϷ������:TIM �ж�Դ 
+  if ((TIM3->SR&0x01) != 0 ) //¼ì²éÖ¸¶¨µÄTIMÖÐ¶Ï·¢ÉúÓë·ñ:TIM ÖÐ¶ÏÔ´ 
   {
     flag = !flag;
     if( flag )
@@ -477,7 +519,7 @@ void TIM3_IRQHandler(void)   //TIM3�ж�
       TIM3->CR1 &= ~(0x01);
     }
 
-    TIM3->SR = (uint16_t)~(1<<0);  //���TIMx���жϴ�����λ:TIM �ж�Դ 
+    TIM3->SR = (uint16_t)~(1<<0);  //Çå³ýTIMxµÄÖÐ¶Ï´ý´¦ÀíÎ»:TIM ÖÐ¶ÏÔ´ 
   }
 }
 #endif
