@@ -135,7 +135,10 @@ void sendQueueCmd(void)
         case 27: //M27
           printSetUpdateWaiting(false);
         break;
-        
+        case 81: //M81
+            GPIO_ResetBits(GPIOE,  GPIO_Pin_5);//¹Ø»úÖ¸Áî
+        break ;
+          
         case 82: //M82
           eSetRelative(false);
         break;
