@@ -220,22 +220,26 @@ KEY_VALUES menuKeyGetValue(void)
 //断料检测
 void Material_Check(void)
 {
-    if((GPIO_ReadInputDataBit(GPIOE ,GPIO_Pin_6)==1) && T_count>10){
-        T_count-=3;
+   if((GPIO_ReadInputDataBit(GPIOE ,GPIO_Pin_6)==0) && T_count>10){
+        T_count-=2;
         //提示断料
         Material_Check_flag=1;
         
 //        popupDrawPage(bottomDoubleBtn, textSelect(LABEL_PAUSE), (u8*)"Supplies are out of stock or broken,please stop printing", textSelect(LABEL_CONFIRM), textSelect(LABEL_CANNEL));
     }
-    else if(GPIO_ReadInputDataBit(GPIOE ,GPIO_Pin_6)==0){
-        T_count++;
-        if(T_count>12){
-            T_count=0;
+    else if(GPIO_ReadInputDataBit(GPIOE ,GPIO_Pin_6)==1 && (T_count>10)){
+//        if(T_count>12){
+            T_count-=3;
             inCheck_flag=1;
             
             Material_Check_flag=0;
-        }
-
+//        }
+    }
+    else{
+        T_count++;
+        if(T_count>15){
+            T_count=0;
+       }
     }
 }
 
